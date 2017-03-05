@@ -47,8 +47,6 @@ if(empty($data['guest'])){
 			header('Location: index.php');
 			}
 
-
-			
 ?>
 
 <html>
