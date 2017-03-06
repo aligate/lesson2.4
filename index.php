@@ -1,50 +1,48 @@
 <?php
 require_once 'components/functions.php';
-$number = '';
 $data = $_POST;
-$error=[];
-if(isset($data['submit'])){
+$number = '';
+$error = [];
+if( isset($data['submit'] ) ){
 $number = counter();
-if(empty($data['guest'])){
+if( empty($data['guest'] ) ){
 	
-	if(array_key_exists('captcha', $data)===false){
+	if( array_key_exists( 'captcha', $data ) === false ){
 		
-		if(logAdmin($data['login'], $data['password'])){
-		
-		header('Location: admin.php');
+		if( logAdmin( $data['login'], $data['password'] ) ){
+		header( 'Location: admin.php' );
 		}
 		else 
 		{	
-			$error[]= "Логин или пароль не подходят";
+			$error[] = "Логин или пароль не подходят";
 		} 
 	}	
 		else{
 			$ip = $_SERVER['REMOTE_ADDR'];
 			$dataCaptcha = getCaptchaCodes();
-			if(array_key_exists($ip, $dataCaptcha) AND strcmp($dataCaptcha[$ip], $data['captcha']) === 0){
-				if(logAdmin($data['login'], $data['password'])){
+			if( array_key_exists($ip, $dataCaptcha ) AND strcmp( $dataCaptcha[$ip], $data['captcha'] ) === 0 ){
+				if( logAdmin( $data['login'], $data['password'] ) ){
 					header('Location: admin.php');
 				} 
 				else{
-					$error[]= "Логин или пароль не подходят";
+					$error[] = "Логин или пароль не подходят";
 				}
 			}
 			else {
-				$error[]= "Введенная капча неверна";
-				
-			}
+				$error[] = "Введенная капча неверна";
+			     }
 		}
-}	
-		elseif(isGuest($data['guest']))
+	}	
+		elseif( isGuest($data['guest'] ) )
 		{	
-			header('Location: list.php');
+			header( 'Location: list.php' );
 		}
-	}
-	if($number > 10){ 
+}
+	if( $number > 10 ){ 
 			isBlocked();
-			$error=[];
-			$data['captcha']=null;
-			header('Location: index.php');
+			$error = [];
+			$data['captcha'] = null;
+			header( 'Location: index.php' );
 			}
 
 ?>
@@ -81,7 +79,7 @@ if(empty($data['guest'])){
 						<?php endif; ?>
 						</form>
                 </div>
-				<?php if(!empty($error)) echo array_shift($error);?>
+				<?php if( !empty( $error ) ) echo array_shift( $error );?>
 				 <br/>
             </div>
         </div>
